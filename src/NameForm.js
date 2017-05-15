@@ -8,7 +8,11 @@ class NameForm extends React.Component {
   constructor() {
     super();
     //the first acount is the owner and the default deployer with truffle
-    this.state = {account:web3.eth.accounts[0]}
+    if(web3 === undefined) {
+      console.info("Web3 was not defined");
+    } else {
+      this.state = {account:web3.eth.accounts[0]}
+    }
   }
 
   render() {

@@ -34,13 +34,12 @@ class Transfer extends React.Component {
   constructor(props) {
     super(props);
 
-
     this.state = {User: '', Amount: ''};
-
     this.handleUserChange = this.handleUserChange.bind(this);
     this.handleAmountChange = this.handleAmountChange.bind(this);
     this.handleDeposit = this.handleDeposit.bind(this);
     this.handleWithdraw = this.handleWithdraw.bind(this);
+
   }
   //amount form
   handleAmountChange(event) {
@@ -59,19 +58,25 @@ class Transfer extends React.Component {
     if(amount.match(/^[0-9A-Fa-fxX]+$/) == null
        || addrs.match(/^[0-9A-Fa-fxX]+$/) == null
         || amount === ''
-         || addrs === '')
-    {
+         || addrs === '') {
+
        alert("Wrong input");
        //Only amount is emptied because its annoying to rewrite the full adress again
        this.setState({Amount: ''});
        return;
      }
-    EuroToken.deployed().then(function(instance) {
-      return instance.deposit(addrs,amount);
-    }).then(function(suc) {
-      return ;
-    });
-    window.location.reload();
+    if(typeof EuroToken != undefined) {
+      EuroToken.deployed().then(function(instance) {
+        return instance.deposit(addrs,amount);
+      }).then(function(suc) {
+        //to be removed after hot reloading is enabled
+        window.location.reload();
+      });
+
+    }
+    else {
+      console.info("Contract is not deployed");
+    }
   }
   //Withdraw button
     handleWithdraw(event) {
@@ -89,40 +94,39 @@ class Transfer extends React.Component {
          this.setState({Amount: ''});
          return;
        }
-       
+
       EuroToken.deployed().then(function(instance) {
-        let meta = instance;
-        console.log(meta);
-        return meta.withdraw(amount, {from: addrs});
+        return instance.withdraw(amount, {from: addrs})
       }).then(function(suc) {
-  return;
-   });
-    window.location.reload();
+        //to be removed after hot reloading is enabled
+        window.location.reload();
+}).catch(function(error){
+  //Maybe more reporting in the case of false withdraw
+   console.info(error);
+});
+
   }
-
-
 
   render() {
     return (
       <h4>
         <form>
           <TextField
-         floatingLabelText="Account address"
-     floatingLabelStyle={styles.floatingLabelStyle}
-     floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-      value={this.state.User} onChange={this.handleUserChange}/>
-        <br></br>
-           <TextField
-          floatingLabelText="Amount"
-      floatingLabelStyle={styles.floatingLabelStyle}
-      floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
-       value={this.state.Amount} onChange={this.handleAmountChange}
-          /> nEur
-          </form>
-            <RaisedButton label="Deposit" primary={true} style={style} backgroundColor= {blue500} onClick={this.handleDeposit} />
-            &ensp;<RaisedButton label="Withdraw" primary={true} onClick={this.handleWithdraw} />
+            floatingLabelText="Account address"
+            floatingLabelStyle={styles.floatingLabelStyle}
+            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+            value={this.state.User} onChange={this.handleUserChange}/>
+            <br></br>
+          <TextField
+            floatingLabelText="Amount"
+            floatingLabelStyle={styles.floatingLabelStyle}
+            floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
+            value={this.state.Amount} onChange={this.handleAmountChange}/> nEur
+        </form>
+          <RaisedButton label="Deposit" primary={true} style={style} backgroundColor= {blue500} onClick={this.handleDeposit} />
+          &ensp;<RaisedButton label="Withdraw" primary={true} onClick={this.handleWithdraw} />
 
-        </h4>
+      </h4>
     );
   }
 }

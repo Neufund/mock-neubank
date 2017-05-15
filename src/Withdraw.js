@@ -6,30 +6,20 @@ let EuroToken = contracts.EuroToken;
 
 
 let TransPromise = EuroToken.deployed().then(function(instance) {
-  let meta = instance;
-  console.log(meta);
   //Issue with filtering
-
   //https://github.com/ethereum/web3.js/issues/452
-  return meta.allEvents({fromBlock: 0, toBlock: 'latest', topics: ["Withdraw"]});
+  return instance.allEvents({fromBlock: 0, toBlock: 'latest', topics: ["Withdraw"]});
 }).then(function(events) {
   return new Promise((resolve, reject)=>{
     events.get(function(error, result){
-     if (error)
-     {
-      reject(error);
-      console.log(error);
-    }
-      else
-      {
-      resolve(result);
-      console.log(result);
-    }
-    });
+     if (error) {
+        console.info("Error getting events from contract")
+        reject(error);
+    } else {
+        resolve(result);
+    }});
   })
-
 });
-
 
 class Withdraw extends React.Component {
   constructor(){
@@ -37,25 +27,27 @@ class Withdraw extends React.Component {
     this.state = {list: ''};
   }
 
+  //Wait for component to mount
   async componentDidMount() {
-    const Transactions = await TransPromise;
-    console.log(Transactions);
+    //wait for transactions from web3
+    let Transactions = await TransPromise;
+    Transactions = Transactions.filter(function(Transactions){
+        if(Transactions.event==="Withdraw")
+        return Transactions;
+    });
 
-    let list ='';
-    list = await Transactions.map((Transactions) => {
-      if(Transactions.event==="Withdraw")
+    let list = await Transactions.map((Transactions) => {
       return ([<TableRow>
                 <TableRowColumn>{Transactions.event}</TableRowColumn>
                 <TableRowColumn>{Transactions.args.client}</TableRowColumn>
                 <TableRowColumn>{Transactions.args.amount.c[0]}</TableRowColumn>
               </TableRow>]);
     });
+
     this.setState({list});
-    console.log(this.state.list);
-  };
+};
 
   render(){
-
     return (
       <Table>
          <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -72,6 +64,5 @@ class Withdraw extends React.Component {
       );
   }
 }
-
 
 module.exports = Withdraw;

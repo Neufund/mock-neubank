@@ -16,7 +16,6 @@ if(typeof window.web3 !== 'undefined') {
 //Using truffle artifacts
 let EuroToken = contract(metacoin_artifacts);
 EuroToken.setProvider(window.web3.currentProvider);
-
 let exportObject = {
     get EuroToken() {
         return EuroToken;
