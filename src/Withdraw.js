@@ -4,6 +4,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 let contracts = require("./web3.js");
 let EuroToken = contracts.EuroToken;
 
+
 let TransPromise = EuroToken.deployed().then(function(instance) {
   let meta = instance;
   console.log(meta);
@@ -51,7 +52,6 @@ class Withdraw extends React.Component {
     });
     this.setState({list});
     console.log(this.state.list);
-
   };
 
   render(){
