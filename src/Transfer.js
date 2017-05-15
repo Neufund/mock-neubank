@@ -1,7 +1,7 @@
 /*Withdraw and deposit Component using name forms more reading to be
 done on java script security practices and how to write failsafe code*/
 
-import React, { Component } from 'react';
+import React from 'react';
 import {indigoA100, blue500} from 'material-ui/styles/colors';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -65,7 +65,7 @@ class Transfer extends React.Component {
        this.setState({Amount: ''});
        return;
      }
-    if(typeof EuroToken != undefined) {
+    if(typeof EuroToken !== undefined) {
       EuroToken.deployed().then(function(instance) {
         return instance.deposit(addrs,amount);
       }).then(function(suc) {
@@ -123,7 +123,7 @@ class Transfer extends React.Component {
             floatingLabelFocusStyle={styles.floatingLabelFocusStyle}
             value={this.state.Amount} onChange={this.handleAmountChange}/> nEur
         </form>
-          <RaisedButton label="Deposit" primary={true} style={style} backgroundColor= {blue500} onClick={this.handleDeposit} />
+          <RaisedButton label="Deposit" primary={true} style={style} backgroundColor={blue500} onClick={this.handleDeposit} />
           &ensp;<RaisedButton label="Withdraw" primary={true} onClick={this.handleWithdraw} />
 
       </h4>

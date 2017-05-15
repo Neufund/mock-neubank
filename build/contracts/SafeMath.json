@@ -1,22 +1,8 @@
 {
   "contract_name": "SafeMath",
-  "abi": [
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "condition",
-          "type": "bool"
-        }
-      ],
-      "name": "assert",
-      "outputs": [],
-      "payable": false,
-      "type": "function"
-    }
-  ],
-  "unlinked_binary": "0x6060604052346000575b606d806100176000396000f300606060405263ffffffff60e060020a6000350416630674763c81146022575b6000565b34600057603160043515156033565b005b801515603d576000565b5b505600a165627a7a723058209a1472c2cd37ec87acddab14d0bc529a5fb5788a5e51f26ac8cbc162343acd260029",
+  "abi": [],
+  "unlinked_binary": "0x6060604052346000575b60358060166000396000f30060606040525b60005600a165627a7a72305820fb7514db9524f2a0940726dffa0004cd84072fea4a86f7b719c244b8daf1aa700029",
   "networks": {},
   "schema_version": "0.0.5",
-  "updated_at": 1492016280643
+  "updated_at": 1492682504735
 }

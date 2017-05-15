@@ -14,7 +14,7 @@ class App extends Component {
           <AppBar
    title="Neufund"
    iconClassNameRight={logo}
- />        <img src={logo} className="App-logo" alt="logo" />Neufund
+ />
           <div><NameForm/></div>
           <div><Transfer/></div>
           <Withdraw/>
@@ -24,3 +24,6 @@ class App extends Component {
 }
 
 export default App;
+
+//Todo: maybe a logo to app bar
+//  <img src={logo} className="App-logo" alt="logo" />Neufund

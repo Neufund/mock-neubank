@@ -1,13 +1,26 @@
 pragma solidity ^0.4.8;
 
 import "../lib/Owned.sol";
-import "./ClientRegisteryInterface.sol";
+import "./IClientRegistery.sol";
 
-contract ClientRegistery is Owned, ClientRegisteryInterface {
+contract ClientRegistery is Owned, IClientRegistery {
 
-//  mapping (address => bool) clients;
-  function hello() returns(uint omen){
-      return 666;
+  mapping (address => bool) internal clients;
+
+  function isClient(address client) external constant returns (bool) {
+      return clients[client];
   }
-  //function is_client(address) returns (bool);
+
+  function addClient(address client) external owner_only {
+      clients[client] = true;
+      ClientAdded(client);
+  }
+
+  function removeClient(address client) external owner_only {
+      delete clients[client];
+      ClientRemoved(client);
+  }
+
+  event ClientAdded(address client);
+  event ClientRemoved(address client);
 }

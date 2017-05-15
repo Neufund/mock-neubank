@@ -33,11 +33,12 @@ contract BaseToken is
   function isContract(address client)
     private constant returns (bool result)
   {
+    uint code_size;
     assembly {
-      result := not(iszero(extcodesize(client)))
+      code_size := extcodesize(client)
     }
+    result = code_size != 0;
   }
-
   function notifyReceiver(
     address from, address to, uint value, bytes data) private
   {
@@ -46,7 +47,6 @@ contract BaseToken is
         .tokenFallback(msg.sender, value, data);
     }
   }
-
   function balanceOf(address _owner)
     public constant returns (uint balance)
   {
@@ -118,12 +118,11 @@ contract BaseToken is
   }
 
   // Internal, for subclasses to use
-  function mint(address to, uint value) public {
+  function mint(address to, uint value) internal {
     assert(to != 0);
     total = safeAdd(total, value);
     balances[to] = safeAdd(balances[to], value);
-  //  notifyReceiver(0, to, value, "");
-
+    notifyReceiver(0, to, value, "");
   }
 
   function burn(address from, uint value) internal {
