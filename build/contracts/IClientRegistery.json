@@ -20,7 +20,13 @@
       "type": "function"
     }
   ],
-  "networks": {},
+  "networks": {
+    "1492684009347": {
+      "links": {},
+      "events": {},
+      "updated_at": 1492689106950
+    }
+  },
   "schema_version": "0.0.5",
-  "updated_at": 1492682504732
+  "updated_at": 1492689106950
 }
