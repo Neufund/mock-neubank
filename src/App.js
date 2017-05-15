@@ -1,30 +1,27 @@
 import React, { Component } from 'react';
 import logo from './logo.png';
 import './App.css';
-//import './MetaCoin.json'
 import Web3 from 'web3'
 import contract from 'truffle-contract'
-import metacoin_artifacts from './MetaCoin.json'
+import metacoin_artifacts from '../build/contracts/MetaCoin.json'
 
+
+//Set up web3 provider
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 web3.eth.defaultAccount = web3.eth.accounts[0];
-console.log(web3.eth.getBalance(web3.eth.accounts[0]));
-//var json = require('./MetaCoin.json');
-//var MetaCoin = web3.eth.contract(json.abi);
+
+
 var MetaCoin = contract(metacoin_artifacts);
-//MetaCoin.setProvider(web3.currentProvider);
-
-var contractAddress = "0xbacbf7e3ee2dbfb591133f077d65e6dca8dae289";
-//var MetaCoin = web3.eth.contract(ABI);
-//var Meta = MetaCoin.at([contractAddress]);
-
-var meta = MetaCoin.at(contractAddress);
-console.log(meta);
 MetaCoin.setProvider(web3.currentProvider);
-/*var test = meta.getBalanceInEth(web3.eth.accounts[1]);
-test = web3.toBigNumber(test);
-console.log(web3.fromWei(web3.eth.getBalance(web3.eth.accounts[1])));
-console.log(test.toNumber());*/
+
+console.log(MetaCoin);
+MetaCoin.deployed().then(function(instance) {
+  let meta = instance;
+  return instance.getBalance.call(web3.eth.accounts[0]);
+}).then(function(balance) {
+  console.log(balance.valueOf());
+
+});
 
 var accounts;
 var account;
@@ -42,10 +39,10 @@ web3.eth.getAccounts(function(err, accs) {
 
      accounts = accs;
      account = accounts[0];
-     console.log(account);
+    // console.log(account);
 
 });
-console.log(account);
+//console.log(account);
 const NameForm = () => (
       <h3>Your account:
         <br></br>&ensp;&ensp;
