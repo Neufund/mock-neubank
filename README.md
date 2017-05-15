@@ -1,6 +1,6 @@
 # mock-neubank
 Mock backend interface for the nEUR bank.
 Testrpc should be running 
-1- npm install
-3- truffle deploy
-4- npm start
+<br>1- npm install
+<br>2- truffle deploy
+<br>3- npm start
