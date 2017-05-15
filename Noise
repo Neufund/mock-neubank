@@ -1,0 +1,51 @@
+CLASS FOR INPUT FORM
+
+constructor(props) {
+    super(props);
+    this.state = {Username: '',
+                  Pass:''
+    };
+    this.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+
+
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handlePassChange = this.handlePassChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleNameChange(event) {
+    this.setState({Username: event.target.value});
+  }
+  handlePassChange(event) {
+    this.setState({Pass: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.Username +' '+ this.state.Pass);
+    event.preventDefault();
+  }
+
+  render() {
+    const accounts = this.web3.eth.accounts;
+    accounts.map(account=>{
+      console.log(this.web3.fromWei(this.web3.eth.getBalance(account), 'ether').valueOf());
+    })
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>Name:</label>
+          <input type="text" value={this.state.Username} onChange={this.handleNameChange} />
+        <br></br>
+        <label>Pass: &ensp;</label>
+          <input type="password" value={this.state.Pass} onChange={this.handlePassChange} />
+        <br></br>
+          <input type="submit" value="Submit" />
+          {console.log(this.web3)}
+      </form>
+    );
+  }
+
+WEB3 CONNECTION
+
+const accounts = this.web3.eth.accounts;
+accounts.map(account=>{
+  this.web3.eth.getBalance(acount);
